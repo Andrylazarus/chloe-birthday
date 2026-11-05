@@ -1,0 +1,182 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>For Chloe, With Love</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Pinyon+Script&family=IM+Fell+English:ital@0;1&family=Homemade+Apple&family=IM+Fell+English+SC&display=swap">
+<style>
+*{box-sizing:border-box}html{padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}body{margin:0}img{max-width:100%}[hidden]{display:none!important}
+/* Layout: one committed look — an aged letter on a velvet desk. A sealed envelope opens on click and the letter (poems, note, P.S. candle) sits below it. */
+:root{
+  --desk:#2a1416; --desk-2:#3b1c1f;
+  --paper:#efe0c2; --paper-edge:#d9c39b; --ink:#3a2316; --ink-soft:#6e5440; --pen:#2e2a5a;
+  --wax:#8e1b26; --wax-hi:#b8323d; --gold:#c49a55;
+  --script:"Pinyon Script","Snell Roundhand","Apple Chancery",cursive;
+  --hand:"Homemade Apple","Bradley Hand","Segoe Script",cursive;
+  --old:"IM Fell English",Garamond,Georgia,serif;
+  --caps:"IM Fell English SC","IM Fell English",Garamond,Georgia,serif;
+  color-scheme:dark;
+}
+body{background:radial-gradient(ellipse at 50% 0%,var(--desk-2),var(--desk) 70%) fixed,var(--desk);color:var(--ink);
+  font-family:var(--old);font-size:1.15rem;line-height:1.65;
+  padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+#petals{position:fixed;inset:0;pointer-events:none;z-index:3}
+main{max-width:38rem;margin:0 auto;padding-block:2.5rem 4rem;display:grid;gap:2.5rem}
+
+/* Envelope */
+.env-wrap{display:grid;justify-items:center;gap:1rem;text-align:center}
+.to{font-family:var(--caps);letter-spacing:.2em;color:var(--gold);font-size:.85rem}
+.envelope{position:relative;width:100%;max-width:26rem;aspect-ratio:3/2;perspective:900px}
+.env-body{position:absolute;inset:0;background:linear-gradient(160deg,var(--paper),var(--paper-edge));border-radius:4px;
+  box-shadow:0 30px 50px -25px #000,inset 0 0 40px rgba(110,84,64,.25)}
+.env-body svg{position:absolute;inset:0;width:100%;height:100%}
+.address{position:absolute;left:0;right:0;bottom:12%;font-family:var(--script);font-size:clamp(2.2rem,9vw,3rem);color:var(--ink);line-height:1}
+.flap{position:absolute;left:0;right:0;top:0;height:58%;transform-origin:top;transition:transform .9s cubic-bezier(.6,.1,.3,1);z-index:2}
+.flap svg{width:100%;height:100%;display:block;filter:drop-shadow(0 4px 4px rgba(0,0,0,.25))}
+.seal{position:absolute;left:50%;top:58%;transform:translate(-50%,-50%);z-index:3;width:5rem;height:5rem;border-radius:50%;border:0;cursor:pointer;
+  background:radial-gradient(circle at 35% 30%,var(--wax-hi),var(--wax) 60%,#5c0f17);color:#f3d9b5;
+  font-family:var(--script);font-size:2.4rem;line-height:1;display:grid;place-items:center;
+  box-shadow:0 0 0 5px #7a1520,0 4px 12px rgba(0,0,0,.5),inset 0 -3px 6px rgba(0,0,0,.35);transition:transform .5s,opacity .5s}
+.seal:hover{transform:translate(-50%,-50%) scale(1.05)}
+.seal:focus-visible{outline:2px solid var(--gold);outline-offset:8px}
+.open .flap{transform:rotateX(180deg)}
+.open .seal{opacity:0;transform:translate(-50%,-30%) scale(.7);pointer-events:none}
+.hint{margin:0;font-style:italic;color:var(--paper-edge);font-size:1rem}
+
+/* Letter */
+.letter{background:var(--paper);background-image:radial-gradient(circle at 15% 10%,rgba(255,255,255,.35),transparent 40%),radial-gradient(circle at 90% 95%,rgba(110,84,64,.18),transparent 45%);
+  padding-block:2.75rem 3rem;padding-inline:clamp(1.25rem,6vw,3.25rem);border-radius:3px;
+  box-shadow:0 30px 60px -30px #000,inset 0 0 60px rgba(110,84,64,.22);display:grid;gap:2rem;transform:rotate(-.4deg)}
+.dateline{text-align:right;font-style:italic;color:var(--ink-soft);margin:0}
+.greeting{text-align:center;display:grid;gap:.2rem}
+.greeting .small{font-family:var(--caps);letter-spacing:.22em;color:var(--ink-soft);font-size:.85rem}
+.greeting h1{margin:0;font-family:var(--script);font-weight:400;font-size:clamp(3.8rem,17vw,6.5rem);line-height:1.1;color:var(--wax)}
+.rule{display:block;width:10rem;max-width:100%;height:auto;margin:0 auto;color:var(--ink-soft)}
+.poem{display:grid;gap:.35rem}
+.poem h2{margin:0;font-family:var(--caps);font-weight:400;letter-spacing:.12em;font-size:1rem;color:var(--wax);text-align:center}
+.poem .by{margin:0 0 .6rem;text-align:center;font-style:italic;font-size:.95rem;color:var(--ink-soft)}
+.verse{margin:0;white-space:pre-line;font-size:1.25rem;line-height:1.75;text-align:center;font-style:italic;text-wrap:balance}
+.verse+.verse{margin-top:.7rem}
+.note{display:grid;gap:1rem;font-family:var(--hand);font-size:.95rem;line-height:2.1;color:var(--pen)}
+.note p{margin:0}
+.sign{text-align:right;font-family:var(--script);font-size:2.6rem;line-height:1.2;color:var(--wax)}
+
+.ps{display:grid;grid-template-columns:auto 1fr;gap:1rem;align-items:center;border-top:1px dashed var(--paper-edge);padding-top:1.5rem}
+.candle-btn{background:none;border:0;padding:.25rem;cursor:pointer;border-radius:8px}
+.candle-btn:focus-visible{outline:2px solid var(--wax);outline-offset:3px}
+.flame{transform-origin:50% 100%;animation:flicker 1.6s ease-in-out infinite}
+.out .flame{opacity:0;transition:opacity .4s}
+.smoke{opacity:0}.out .smoke{animation:smoke 2.4s ease-out forwards}
+@keyframes flicker{0%,100%{transform:scale(1,1) rotate(-2deg)}50%{transform:scale(.92,1.08) rotate(2deg)}}
+@keyframes smoke{0%{opacity:.6;transform:translateY(0)}100%{opacity:0;transform:translateY(-24px)}}
+.ps p{margin:0;font-family:var(--hand);font-size:.88rem;line-height:1.9;color:var(--pen);min-width:0}
+footer{text-align:center;font-family:var(--caps);letter-spacing:.2em;font-size:.8rem;color:var(--gold)}
+@media (prefers-reduced-motion:reduce){.flame{animation:none}.flap{transition:none}}
+</style>
+</head>
+<body>
+
+<canvas id="petals" aria-hidden="true"></canvas>
+<main>
+  <section class="env-wrap" aria-label="Envelope">
+    <span class="to">A letter for your birthday</span>
+    <div class="envelope" id="envelope">
+      <div class="env-body">
+        <svg viewBox="0 0 300 200" preserveAspectRatio="none" aria-hidden="true"><path d="M0 200 L150 95 L300 200" fill="none" stroke="rgba(110,84,64,.3)" stroke-width="1.5"/></svg>
+        <span class="address">Miss Chloe</span>
+      </div>
+      <div class="flap" aria-hidden="true"><svg viewBox="0 0 300 116" preserveAspectRatio="none"><path d="M0 0 H300 L150 116 Z" fill="var(--paper-edge)"/><path d="M0 0 L150 116 L300 0" fill="none" stroke="rgba(110,84,64,.35)" stroke-width="1.5"/></svg></div>
+      <button class="seal" id="seal" aria-label="Break the seal and open the letter">C</button>
+    </div>
+    <p class="hint" id="hint">Break the seal to open it</p>
+  </section>
+
+  <article class="letter" id="letter">
+    <p class="dateline">On the day you were born, and every day since</p>
+
+    <div class="greeting">
+      <span class="small">Happy Birthday, my dearest</span>
+      <h1>Chloe</h1>
+    </div>
+
+    <svg class="rule" viewBox="0 0 160 16" aria-hidden="true"><path d="M2 8 C30 0 50 16 80 8 C110 0 130 16 158 8" fill="none" stroke="currentColor" stroke-width="1"/><circle cx="80" cy="8" r="2.5" fill="currentColor"/></svg>
+
+    <section class="poem">
+      <h2>My favourite poem</h2>
+      <p class="by">This is my favourite poem, and every time I read it, it reminds me of you. It matches you perfectly.</p>
+      <p class="verse">But soft! What light through yonder window breaks?
+It is the east, and Chloe is the sun.</p>
+      <p class="verse">My bounty is as boundless as the sea,
+My love as deep; the more I give to thee,
+The more I have, for both are infinite.</p>
+    </section>
+
+    <svg class="rule" viewBox="0 0 160 16" aria-hidden="true"><path d="M2 8 C30 0 50 16 80 8 C110 0 130 16 158 8" fill="none" stroke="currentColor" stroke-width="1"/><circle cx="80" cy="8" r="2.5" fill="currentColor"/></svg>
+
+    <section class="note" aria-label="Letter from Andry">
+      <p>My dear Chloe,</p>
+      <p>We have never met in person, but I have been genuinely interested in you since the day we got to know each other. Even from far away, you make ordinary days feel worth remembering, and the hard days lighter just by being in them.</p>
+      <p>You are still a little mystery to me. I don't know why you don't want to meet yet.</p>
+      <p>I hope this year brings you every good thing you've been quietly wishing for, and I hope one day I can say happy birthday to you face to face.</p>
+      <p>Happy birthday, my bby.</p>
+      <p class="sign">Yours, Andry</p>
+    </section>
+
+    <section class="ps" aria-label="Postscript">
+      <button class="candle-btn" id="candle" aria-label="Blow out the candle">
+        <svg width="40" height="80" viewBox="0 0 70 130" aria-hidden="true">
+          <g class="smoke"><path d="M35 30 q-6 -10 0 -18 q6 -8 0 -16" fill="none" stroke="var(--ink-soft)" stroke-width="3" stroke-linecap="round"/></g>
+          <g class="flame"><ellipse cx="35" cy="30" rx="9" ry="17" fill="#e0a43a"/><ellipse cx="35" cy="34" rx="4.5" ry="9" fill="#fff4d6"/></g>
+          <line x1="35" y1="44" x2="35" y2="52" stroke="var(--ink)" stroke-width="2"/>
+          <rect x="22" y="52" width="26" height="70" rx="3" fill="var(--wax)"/>
+        </svg>
+      </button>
+      <p id="ps-text">P.S. Close your eyes, make a wish, and tap the candle.</p>
+    </section>
+  </article>
+
+  <footer>Sealed with love</footer>
+</main>
+
+<script>
+const env=document.getElementById('envelope'),seal=document.getElementById('seal'),hint=document.getElementById('hint');
+const reduce=matchMedia('(prefers-reduced-motion: reduce)').matches;
+seal.onclick=()=>{
+  env.classList.add('open');hint.textContent='Your letter is just below';
+  burst();
+  setTimeout(()=>document.getElementById('letter').scrollIntoView({behavior:reduce?'auto':'smooth'}),900);
+};
+const candle=document.getElementById('candle'),ps=document.getElementById('ps-text');
+candle.onclick=()=>{
+  const out=candle.classList.toggle('out');
+  candle.setAttribute('aria-label',out?'Light the candle again':'Blow out the candle');
+  ps.textContent=out?'P.S. Wish made. I hope every bit of it comes true, and that I get to be there when it does.':'P.S. Close your eyes, make a wish, and tap the candle.';
+  if(out)burst();
+};
+
+/* rose petals: a gentle drift, plus a flurry when the seal breaks */
+const c=document.getElementById('petals'),x=c.getContext('2d');
+let W,H,petals=[];
+function size(){const d=devicePixelRatio;W=c.width=innerWidth*d;H=c.height=innerHeight*d;c.style.width=innerWidth+'px';c.style.height=innerHeight+'px'}
+size();addEventListener('resize',()=>{size();if(reduce)draw()});
+const cols=['#8e1b26','#b8323d','#a3283a'];
+function make(top){const d=devicePixelRatio;return{x:Math.random()*W,y:top?-20*d:Math.random()*H,r:(5+Math.random()*6)*d,vy:(.4+Math.random()*.6)*d,sw:Math.random()*6.28,rot:Math.random()*6.28,vr:(Math.random()-.5)*.03,a:.45+Math.random()*.4,c:cols[Math.random()*3|0]}}
+for(let i=0;i<10;i++)petals.push(make(false));
+function burst(){if(reduce)return;for(let i=0;i<40;i++){const p=make(true);p.y=-Math.random()*H*.4;p.vy*=1.5;petals.push(p)}}
+function draw(){
+  x.clearRect(0,0,W,H);
+  for(const p of petals){
+    if(!reduce){p.y+=p.vy;p.sw+=.012;p.x+=Math.sin(p.sw)*.5*devicePixelRatio;p.rot+=p.vr}
+    x.save();x.translate(p.x,p.y);x.rotate(p.rot);x.globalAlpha=p.a;x.fillStyle=p.c;
+    x.beginPath();x.moveTo(0,-p.r);x.bezierCurveTo(p.r,-p.r,p.r*.8,p.r*.6,0,p.r);x.bezierCurveTo(-p.r*.8,p.r*.6,-p.r,-p.r,0,-p.r);x.fill();x.restore();
+  }
+  petals=petals.filter(p=>p.y<H+40);while(petals.length<10)petals.push(make(true));
+}
+function loop(){draw();requestAnimationFrame(loop)}
+reduce?draw():loop();
+</script>
+</body>
+</html>
