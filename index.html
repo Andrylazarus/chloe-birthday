@@ -33,12 +33,12 @@ main{max-width:38rem;margin:0 auto;padding-block:2.5rem 4rem;display:grid;gap:2.
 .env-body{position:absolute;inset:0;background:linear-gradient(160deg,var(--paper),var(--paper-edge));border-radius:4px;
   box-shadow:0 30px 50px -25px #000,inset 0 0 40px rgba(110,84,64,.25)}
 .env-body svg{position:absolute;inset:0;width:100%;height:100%}
-.address{position:absolute;left:0;right:0;bottom:12%;font-family:var(--script);font-size:clamp(2.2rem,9vw,3rem);color:var(--ink);line-height:1}
+.address{position:absolute;left:0;right:0;bottom:6%;font-family:var(--script);font-size:clamp(1.9rem,8vw,3rem);color:var(--ink);line-height:1}
 .flap{position:absolute;left:0;right:0;top:0;height:58%;transform-origin:top;transition:transform .9s cubic-bezier(.6,.1,.3,1);z-index:2}
 .flap svg{width:100%;height:100%;display:block;filter:drop-shadow(0 4px 4px rgba(0,0,0,.25))}
-.seal{position:absolute;left:50%;top:58%;transform:translate(-50%,-50%);z-index:3;width:5rem;height:5rem;border-radius:50%;border:0;cursor:pointer;
+.seal{position:absolute;left:50%;top:58%;transform:translate(-50%,-50%);z-index:3;width:clamp(3.6rem,15vw,5rem);height:clamp(3.6rem,15vw,5rem);border-radius:50%;border:0;cursor:pointer;
   background:radial-gradient(circle at 35% 30%,var(--wax-hi),var(--wax) 60%,#5c0f17);color:#f3d9b5;
-  font-family:var(--script);font-size:2.4rem;line-height:1;display:grid;place-items:center;
+  font-family:var(--script);font-size:clamp(1.8rem,7vw,2.4rem);line-height:1;display:grid;place-items:center;
   box-shadow:0 0 0 5px #7a1520,0 4px 12px rgba(0,0,0,.5),inset 0 -3px 6px rgba(0,0,0,.35);transition:transform .5s,opacity .5s}
 .seal:hover{transform:translate(-50%,-50%) scale(1.05)}
 .seal:focus-visible{outline:2px solid var(--gold);outline-offset:8px}
