@@ -196,48 +196,44 @@ function draw(){
 }
 function loop(){draw();requestAnimationFrame(loop)}
 reduce?draw():loop();
-/* music: Pachelbel's Canon in D (public domain, 1680s), played softly with Web Audio */
+/* music: Beethoven's "Für Elise" (public domain, 1810), played softly with Web Audio */
 const music=(()=>{
   const midi=n=>{const m=n.match(/^([A-G]#?)(\d)$/),k={C:0,'C#':1,D:2,'D#':3,E:4,F:5,'F#':6,G:7,'G#':8,A:9,'A#':10,B:11}[m[1]];return 440*Math.pow(2,(k+12*(+m[2]+1)-69)/12)};
-  const bass=["D3","A2","B2","F#2","G2","D2","G2","A2"];
-  const chords=[["F#3","A3"],["C#3","E3"],["D3","F#3"],["A2","C#3"],["B2","D3"],["F#2","A2"],["B2","D3"],["C#3","E3"]];
-  // each melody line spans one bass cycle (16 quarter beats): [note, beats]
-  const lines=[
-    [["F#5",2],["E5",2],["D5",2],["C#5",2],["B4",2],["A4",2],["B4",2],["C#5",2]],
-    [["D5",2],["C#5",2],["B4",2],["A4",2],["G4",2],["F#4",2],["G4",2],["E4",2]],
-    [["D4",1],["F#4",1],["A4",1],["G4",1],["F#4",1],["D4",1],["F#4",1],["E4",1],["D4",1],["B3",1],["D4",1],["A4",1],["G4",1],["B4",1],["A4",1],["G4",1]],
-    [["F#5",2],["E5",2],["D5",2],["C#5",2],["B4",2],["A4",2],["B4",2],["C#5",2]]
+  // one sixteenth note per step; a step can hold several notes, null is a rest
+  const steps=[
+    "E5","D#5","E5","B4","D5","C5",
+    ["A2","A4"],"E3","A3","C4","E4","A4",
+    ["E2","B4"],"E3","G#3","E4","G#4","B4",
+    ["A2","C5"],"E3","A3","E4","E5","D#5",
+    "E5","D#5","E5","B4","D5","C5",
+    ["A2","A4"],"E3","A3","C4","E4","A4",
+    ["E2","B4"],"E3","G#3","E4","C5","B4",
+    ["A2","A4"],"E3","A3",null,"E5","D#5"
   ];
-  const events=[];let t0=0;
-  lines.forEach(line=>{
-    bass.forEach((b,k)=>{events.push([t0+k*2,b,.16,3]);chords[k].forEach((c,j)=>events.push([t0+k*2+.5+j*.5,c,.05,2]))});
-    let t=t0;line.forEach(([n,d])=>{events.push([t,n,.2,d>1?2.6:1.6]);t+=d});
-    t0+=16;
-  });
-  const loopLen=t0,beat=.62;events.sort((a,b)=>a[0]-b[0]);
-  let ctx,master,timer,on=false,base=0,idx=0,loops=0;
+  const step=.21;
+  let ctx,master,timer,on=false,next=0,idx=0;
   function tone(f,t,vol,len){
-    [[1,vol,'triangle'],[2,vol*.18,'sine'],[4,vol*.04,'sine']].forEach(([m,v,type])=>{
+    [[1,vol,'triangle'],[2,vol*.22,'sine'],[3,vol*.07,'sine']].forEach(([m,v,type])=>{
       const o=ctx.createOscillator(),g=ctx.createGain();o.type=type;o.frequency.value=f*m;
-      g.gain.setValueAtTime(0,t);g.gain.linearRampToValueAtTime(v,t+.012);g.gain.exponentialRampToValueAtTime(.0001,t+len);
+      g.gain.setValueAtTime(0,t);g.gain.linearRampToValueAtTime(v,t+.006);g.gain.exponentialRampToValueAtTime(.0001,t+len);
       o.connect(g);g.connect(master);o.start(t);o.stop(t+len+.05);
     });
   }
   function schedule(){
-    for(;;){
-      const e=events[idx],when=base+(loops*loopLen+e[0])*beat;
-      if(when>ctx.currentTime+.5)break;
-      tone(midi(e[1]),when,e[2],e[3]);
-      idx++;if(idx>=events.length){idx=0;loops++}
+    while(next<ctx.currentTime+.5){
+      const s=steps[idx];
+      if(s)[].concat(s).forEach(n=>{const f=midi(n),low=f<200;tone(f,next,low?.13:.2,low?2.2:1.4)});
+      next+=step;idx=(idx+1)%steps.length;
+      if(idx===0)next+=step*.6; /* a small breath at the end of each phrase */
     }
   }
   function start(){
     if(!ctx){const AC=window.AudioContext||window.webkitAudioContext;if(!AC)return false;ctx=new AC();
-      const lp=ctx.createBiquadFilter();lp.type='lowpass';lp.frequency.value=2600;
+      const lp=ctx.createBiquadFilter();lp.type='lowpass';lp.frequency.value=2800;
       master=ctx.createGain();master.gain.value=.75;master.connect(lp);lp.connect(ctx.destination);
-      const d=ctx.createDelay();d.delayTime.value=.33;const fb=ctx.createGain();fb.gain.value=.3;
+      const d=ctx.createDelay();d.delayTime.value=.3;const fb=ctx.createGain();fb.gain.value=.28;
       lp.connect(d);d.connect(fb);fb.connect(d);d.connect(ctx.destination);}
-    ctx.resume();base=ctx.currentTime+.15;idx=0;loops=0;clearInterval(timer);timer=setInterval(schedule,100);schedule();on=true;return true;
+    ctx.resume();next=ctx.currentTime+.15;idx=steps.length-2;clearInterval(timer);timer=setInterval(schedule,100);schedule();on=true;return true;
   }
   function stop(){clearInterval(timer);if(ctx)ctx.suspend();on=false}
   return{start,stop,get on(){return on}};
