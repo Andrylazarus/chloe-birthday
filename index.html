@@ -75,12 +75,17 @@ main{max-width:38rem;margin:0 auto;padding-block:2.5rem 4rem;display:grid;gap:2.
 .ps p{margin:0;font-family:var(--hand);font-size:.88rem;line-height:1.9;color:var(--pen);min-width:0}
 footer{text-align:center;font-family:var(--caps);letter-spacing:.2em;font-size:.8rem;color:var(--gold)}
 @media (prefers-reduced-motion:reduce){.flame{animation:none}.flap{transition:none}}
+.sealed .letter,.sealed footer{display:none}
+.letter.reveal{animation:popup 1s cubic-bezier(.2,.8,.2,1) both}
+@keyframes popup{from{opacity:0;transform:translateY(60px) scale(.92) rotate(-.4deg)}to{opacity:1;transform:translateY(0) scale(1) rotate(-.4deg)}}
+@media (prefers-reduced-motion:reduce){.letter.reveal{animation:none}}
+
 </style>
 </head>
 <body>
 
 <canvas id="petals" aria-hidden="true"></canvas>
-<main>
+<main class="sealed" id="main">
   <section class="env-wrap" aria-label="Envelope">
     <span class="to">A letter for your birthday</span>
     <div class="envelope" id="envelope">
@@ -145,9 +150,15 @@ The more I have, for both are infinite.</p>
 const env=document.getElementById('envelope'),seal=document.getElementById('seal'),hint=document.getElementById('hint');
 const reduce=matchMedia('(prefers-reduced-motion: reduce)').matches;
 seal.onclick=()=>{
-  env.classList.add('open');hint.textContent='Your letter is just below';
+  if(env.classList.contains('open'))return;
+  env.classList.add('open');hint.textContent='Your letter has arrived';
   burst();
-  setTimeout(()=>document.getElementById('letter').scrollIntoView({behavior:reduce?'auto':'smooth'}),900);
+  setTimeout(()=>{
+    const letter=document.getElementById('letter');
+    document.getElementById('main').classList.remove('sealed');
+    letter.classList.add('reveal');
+    letter.scrollIntoView({behavior:reduce?'auto':'smooth',block:'start'});
+  },900);
 };
 const candle=document.getElementById('candle'),ps=document.getElementById('ps-text');
 candle.onclick=()=>{
